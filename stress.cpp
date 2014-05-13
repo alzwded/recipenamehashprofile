@@ -1,14 +1,14 @@
 /*
-   run time on AMD Phenom x3 @2.3Ghz/Core: ~2seconds
-   + OMP_NUM_THREADS = 2
-   + including I/O and memory allocation
+   run time on AMD Phenom x3 @2.3Ghz/Core: ~1.2 seconds
+   + OMP_NUM_THREADS = 4
+   + including memory allocations, not including I/O
 
-   run time with OMP_NUM_THREADS: ~14seconds
+   run time with OMP_NUM_THREADS: ~2.3 seconds
 
    no duplicates were generated in those 500000 entries. (or the script used to check for dups was broken)
    Coupled with the fact that these hashes will be appended to an already quasi unique name, the resulting name should be globally unique with great confidence
 
-   the parallelisation is very important for such a great number of names to be generated
+   the parallelisation is halves the time for 500k+ names; could be improved by tinkering with fine tuning the parallelisation and vectorisation
    the parallelisation is unnecesary for <10k names
 */
 #include <iostream>
