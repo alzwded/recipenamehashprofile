@@ -34,12 +34,10 @@ std::string to64(uint64_t const& hash)
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_', /**/
     };
 
-    uint8_t const* phash = reinterpret_cast<uint8_t const*>(&hash);
-    uint8_t const* ps[] = { phash, phash + 4 };
+    uint8_t const* p = reinterpret_cast<uint8_t const*>(&hash);
     uint8_t a = 0;
-    char s[9];
+    char s[12];
     for(size_t i = 0; i < 2; ++i) {
-        uint8_t const* p = ps[i];
         // 0-6      / 0
         a = (*p >> 2) & 0x3F;
         s[i * 4 + 0] = b64alphabet[a];
@@ -56,7 +54,17 @@ std::string to64(uint64_t const& hash)
         s[i * 4 + 3] = b64alphabet[a];
         ++p;
     }
-    s[8] = '\0';
+    // 48-54 6
+    a = (*p >> 2) & 0x3F;
+    s[9] = b64alphabet[a];
+    // 54-60 6-7
+    a = ((*p & 0x3) << 4) | ((*(p + 1) >> 4) & 0x0F);
+    s[10] = b64alphabet[a];
+    ++p;
+    // 60 7
+    a = (*p & 0xF);
+    s[11] = b64alphabet[a];
+    s[12] = '\0';
 
     return std::string(s);
 }

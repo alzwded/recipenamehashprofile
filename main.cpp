@@ -18,11 +18,9 @@ void print64(uint64_t const& hash)
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_', /**/
     };
 
-    uint8_t const* phash = reinterpret_cast<uint8_t const*>(&hash);
-    uint8_t const* ps[] = { phash, phash + 4 };
+    uint8_t const* p = reinterpret_cast<uint8_t const*>(&hash);
     uint8_t a = 0;
     for(size_t i = 0; i < 2; ++i) {
-        uint8_t const* p = ps[i];
         // 0-6      / 0
         a = (*p >> 2) & 0x3F;
         std::cout << b64alphabet[a];
@@ -39,6 +37,16 @@ void print64(uint64_t const& hash)
         std::cout << b64alphabet[a];
         ++p;
     }
+    // 48-54 6
+    a = (*p >> 2) & 0x3F;
+    std::cout << b64alphabet[a];
+    // 54-60 6-7
+    a = ((*p & 0x3) << 4) | ((*(p + 1) >> 4) & 0x0F);
+    std::cout << b64alphabet[a];
+    ++p;
+    // 60 7
+    a = (*p & 0xF);
+    std::cout << b64alphabet[a];
 }
 
 int main(int argc, char* argv[])
