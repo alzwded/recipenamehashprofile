@@ -36,7 +36,7 @@ std::string to64(uint64_t const& hash)
 
     uint8_t const* p = reinterpret_cast<uint8_t const*>(&hash);
     uint8_t a = 0;
-    char s[12];
+    char s[11];
     for(size_t i = 0; i < 2; ++i) {
         // 0-6      / 0
         a = (*p >> 2) & 0x3F;
@@ -56,15 +56,15 @@ std::string to64(uint64_t const& hash)
     }
     // 48-54 6
     a = (*p >> 2) & 0x3F;
-    s[9] = b64alphabet[a];
+    s[8] = b64alphabet[a];
     // 54-60 6-7
     a = ((*p & 0x3) << 4) | ((*(p + 1) >> 4) & 0x0F);
-    s[10] = b64alphabet[a];
+    s[9] = b64alphabet[a];
     ++p;
     // 60 7
     a = (*p & 0xF);
-    s[11] = b64alphabet[a];
-    s[12] = '\0';
+    s[10] = b64alphabet[a];
+    s[11] = '\0';
 
     return std::string(s);
 }
