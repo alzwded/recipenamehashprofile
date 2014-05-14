@@ -26,7 +26,7 @@ void xPear16(void const*, size_t, uint64_t*);
 // doesn't account for endianness
 std::string to64(uint64_t const& hash)
 {
-    char const b64alphabet[] = {
+    static char const b64alphabet[] = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
         'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
